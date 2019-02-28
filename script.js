@@ -97,6 +97,7 @@ $(document).ready(function(){
   var verticalItems = $(".searchVerticalItem");
   var usecaseItems = $(".searchUseCaseItem");
 
+  //commit
   for(let i = 0 ; i< verticalItems.length; i++){
     verticalItems[i].addEventListener('change',function(e){
       sideBarVerticalChange(e);
