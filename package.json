@@ -1,0 +1,14 @@
+{
+  "name": "awesome-koji",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+	  "deploy": "gh-pages -d public"
+  },
+  "author": "Koji",
+  "license": "ISC",
+  "devDependencies": {
+    "gh-pages": "^2.0.1"
+  }
+}
