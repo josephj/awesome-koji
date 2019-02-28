@@ -1,0 +1,229 @@
+@import url('https://rsms.me/inter/inter.css?family=Inter');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:700|Roboto');
+
+body { 
+  font-family: 'Inter', serif; 
+}
+
+html, body {
+  height: 100%;
+  font-size:16px;
+}
+body{
+  margin:0px;
+}
+button{
+  margin-left:5px;
+}
+label input{
+  left:-5px !important;
+}
+.headerLink{
+  position: relative;
+  display: inline-block;
+  text-decoration:none !important;
+}
+.headerLink::after{
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: #333;
+  transform: scale(0, 1);
+  transform-origin: center top;
+  transition: transform .3s;
+}
+
+.headerLink:hover::after {
+  transform: scale(1, 1);
+}
+
+div#pageContainer {
+  position: relative;
+  min-height: 100%;
+  overflow:hidden;
+}
+.header{
+  line-height:70px;
+}
+#header{
+  background-color:#FFFFFF;
+  width:100%;
+}
+#header-left{
+  float:left;
+  width:33%;
+}
+.stacklapedia_icon{
+  padding:10px;
+}
+.stacklapedia{
+  font-size: 30px;
+  width: 100%;
+  padding-left: 10px !important;
+}
+#header-right{
+  float:right;
+  width:20%;
+}
+#header-center{
+  text-align: center;
+  margin:0 auto;
+  width:33%;
+}
+.headerMiddleItems,.headerItems{
+  display:inline;
+}
+.headerItems{
+  margin:25px;
+  font-size:18px;
+}
+
+#main{
+  background-color:whitesmoke;
+  display: table;
+  width: 100%;
+}
+#sidebar {
+  display: table-cell;
+  width: 15%;
+  height:100%;
+}
+#content{
+  display: table-cell;
+  padding-top:25px;
+}
+
+.sidebar_fieldset{
+  margin-left:40px;
+}
+
+.sidebar-title{
+  font-size:30px;
+  font-weight:bold;
+  padding:20px;
+  margin-left:20px;
+}
+
+legend{
+  font-weight:bold;
+}
+
+fieldset{
+  border:none;
+  padding:10px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+label{
+  display:block !important;
+  position:relative;
+  padding-left:1em;
+}
+
+label input{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  margin:auto;
+}
+
+.btnUpload::before{
+  font-family: FontAwesome;
+  content: "\f067";
+  margin-right:5px;
+}
+.btnUpload{
+  position:absolute;
+  height: 50px;	
+  width: 210px;	
+  border-radius: 8px;	
+  background-color: #E8F9FC;
+  color:#65D7E7;
+  font-size:16px;
+  margin-left:70px;
+  line-height: initial !important;
+}
+
+.searchbox {
+  display:inline-block;
+  height: 50px;	
+  min-width:800px;
+  width: auto;	
+  border: 1px solid #D9DBDE;	
+  border-radius: 10px;	
+  background-color: #FFFFFF;	
+  box-shadow: 0 2px 4px 0 rgba(153,153,153,0.1);
+  font-size:16px;
+  padding-left:10px;
+  margin-left:5px;
+  padding-top:12px;
+}
+
+.btnSortby {	
+  height: 50px;	
+  width: 112px;	
+  border: 1px solid #D9DBDE;	
+  border-radius: 8px;	
+  background-color: #FFFFFF;	
+  box-shadow: 0 2px 4px 0 rgba(136,136,136,0.1);
+  font-size:16px;
+  font-weight:500px;
+  line-height:23px;
+  margin-left:5px;
+}
+.sortArea{
+  float:right;
+  margin-right: 150px;
+  display:inline-block;
+}
+.stacklaForm{
+  margin-top:30px;
+}
+
+.item{
+  display:inline;
+  border-radius: 10px;
+  margin: 0 3px 3px 0;
+  color: #ffffff;
+  background: #1da7ee;
+  border: 1px solid #0073bb;
+  padding: 10px 10px !important;
+}
+.item:after{
+  font-family: FontAwesome;
+  content: "\f00D";
+  padding-left:5px;
+  color:#FFFFFF;
+}
+.item:hover:after{
+  color:red;
+}
+.itemBlank{
+  color:#D7DBDD;
+}
+.itemBlank:before{
+  font-family: FontAwesome;
+  content: "\f002";
+  margin-right:5px;
+  color:#D7DBDD;
+}
+.modal-body{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+.modal-content{
+  border-radius:20px !important;
+  width:800px !important;
+}
+.modal-header{
+  border-bottom: none !important;
+}
+.container {
+  max-width: 100% !important;
+}
+
