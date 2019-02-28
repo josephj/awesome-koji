@@ -1,5 +1,7 @@
 const VERTICAL_TYPE = "Vertical";
+const VERTICAL_ITEM_CLSNAME = "verticalItem";
 const USECASE_TYPE = "UseCase";
+const USECASE_ITEM_CLSNAME = "usecaseItem";
 
 // Item class 
 var Item = function(text,value,type){
@@ -62,31 +64,25 @@ Filter.prototype.remove = function(val,type){
   }
 }
 
-Filter.prototype.createItemHtml = function(type,elements){
+Filter.prototype.createItemHtml = function(){
   
-  var clsName = (type === VERTICAL_TYPE) ? "verticalItem" : (type === USECASE_TYPE) ? "usecaseItem" : "";
+  if(!this.verticals.length && !this.usecases.length)
+    return "<div class='itemBlank'>Search...</div>";
+ 
   var itemHtmls = "";
-  for(let i = 0; i < elements.length; i++){
-    var val = elements[i].value,
-        text = elements[i].text;
-    
-    itemHtmls += `<div class='item ${clsName}' onclick='filterItemClick(this)' data-value='${val}'>${text}</div>`;
-  }
+  $.each(this.verticals,function(index,elem){
+    itemHtmls += `<div class='item ${VERTICAL_ITEM_CLSNAME}' onclick='filterItemClick(this)' data-value='${elem.value}'>${elem.text}</div>`;
+  });
+  $.each(this.usecases,function(index,elem){
+    itemHtmls += `<div class='item ${USECASE_ITEM_CLSNAME}' onclick='filterItemClick(this)' data-value='${elem.value}'>${elem.text}</div>`;
+  });
+  
   return itemHtmls;
 }
 
 Filter.prototype.showList = function(){
-  var elements = "";
   $("#conditions").empty();
-  if(!this.verticals.length && !this.usecases.length){
-    elements = "<div class='itemBlank'>Search...</div>";
-  }
-  else{
-    elements = this.createItemHtml(VERTICAL_TYPE, this.verticals);
-    elements += this.createItemHtml(USECASE_TYPE, this.usecases);
-  }
-
-  $("#conditions").append(elements);
+  $("#conditions").append(this.createItemHtml());
 
   // dynamic filter by Tags
   //var tagIds = this.getSelectedTagIds(); 
@@ -99,41 +95,41 @@ var $widgetId;
 
 $(document).ready(function(){
   initialize();
-  var verticalItems = $(".searchVerticalItem");
-  var usecaseItems = $(".searchUseCaseItem");
 
-  for(let i = 0 ; i< verticalItems.length; i++){
-    verticalItems[i].addEventListener('change',function(e){
+  $('#sidebar').on('change', '.searchVerticalItem, .searchUseCaseItem', (e) => {
+    if($(e.target).hasClass("searchVerticalItem")){
       sideBarVerticalChange(e);
-    });
-  }
-  for(let i = 0 ; i< usecaseItems.length; i++){
-    usecaseItems[i].addEventListener('change',function(e){
+    }
+    else if($(e.target).hasClass("searchUseCaseItem")){
       sideBarUsecaseChange(e);
-    });
-  }
+    }
+  });
 });
+
+function initialize(){
+  this.$widgetId = $(".stackla-widget").attr("data-id");
+  $filter.showList();
+}
 
 function filterItemClick(e){
   var val = $(e).data('value');
   var type, elems;
-
-  if($(e).hasClass("verticalItem")){
+  
+  if($(e).hasClass(VERTICAL_ITEM_CLSNAME)){
     type = VERTICAL_TYPE;
     elems = $(".searchVerticalItem");
   }
-  else if($(e).hasClass("usecaseItem")){
+  else if($(e).hasClass(USECASE_ITEM_CLSNAME)){
     elems = $(".searchUseCaseItem");
     type = USECASE_TYPE;
   }
-
+ 
   $filter.remove(val,type);
 
-  for(let i = 0; i < elems.length; i++){   
-    if(elems[i].value == val){
-      elems[i].checked = !elems[i].checked;
-    }
-  }
+  $.each(elems, function(idx,elem){
+    if(elem.value == val) elem.checked = !elem.checked;
+  })
+
   $filter.showList();
 
   // TODO
@@ -154,9 +150,4 @@ function sideBarVerticalChange(e){
 }
 function sideBarUsecaseChange(e){
   sideBarItemChange(e,USECASE_TYPE);
-}
-
-function initialize(){
-  this.$widgetId = $(".stackla-widget").attr("data-id");
-  $filter.showList();
 }
