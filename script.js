@@ -1,5 +1,5 @@
-var VERTICAL_TYPE = "Vertical";
-var USECASE_TYPE = "UseCase";
+const VERTICAL_TYPE = "Vertical";
+const USECASE_TYPE = "UseCase";
 
 // Item class 
 var Item = function(text,value,type){
@@ -8,32 +8,32 @@ var Item = function(text,value,type){
   this.type = type;
 }
 
-var VerticalItem = function(text,value){
-  Item.call(this,text,value,VERTICAL_TYPE);
+var VerticalItem = function(text,value) {
+  Item.call(this,text,value,VERTICAL_TYPE); 
 }
-var UseCaseItem =function(text,value){
+var UseCaseItem = function(text,value){
   Item.call(this,text,value,USECASE_TYPE);
 }
 
 var Filter = function(){
   this.verticals = [];
-  this.usecases = [];  
+  this.usecases = [];
 };
 
 Filter.prototype.getSelectedTagIds = function(){
-  var ids = this.verticals.map(function (vertical) {
+  var ids = this.verticals.map((vertical) => {
     return vertical.value;
   }).join(',');
   ids += ",";
-  ids += this.usecases.map(function (usecases) {
+
+  ids += this.usecases.map((usecases) => {
     return usecases.value;
   }).join(',');
   return ids;
 };
 
-Filter.prototype.getItems = function(itemType){
-  if(itemType === VERTICAL_TYPE) return this.verticals;
-  else if(itemType === USECASE_TYPE) return this.usecases;
+Filter.prototype.getFilterItems = function(itemType){
+  return (itemType === VERTICAL_TYPE) ? this.verticals : (itemType === USECASE_TYPE) ? this.usecases : null;
 };
 
 Filter.prototype.add = function(txt,val,type){
@@ -49,8 +49,8 @@ Filter.prototype.add = function(txt,val,type){
 };
 
 Filter.prototype.remove = function(val,type){
-  var items = this.getItems(type);
-  var newItems = items.filter(function (i) {
+  var items = this.getFilterItems(type);
+  var newItems = items.filter((i) => {
     return i.value != val;      
   });
 
@@ -62,26 +62,31 @@ Filter.prototype.remove = function(val,type){
   }
 }
 
+Filter.prototype.createItemHtml = function(type,elements){
+  
+  var clsName = (type === VERTICAL_TYPE) ? "verticalItem" : (type === USECASE_TYPE) ? "usecaseItem" : "";
+  var itemHtmls = "";
+  for(let i = 0; i < elements.length; i++){
+    var val = elements[i].value,
+        text = elements[i].text;
+    
+    itemHtmls += `<div class='item ${clsName}' onclick='filterItemClick(this)' data-value='${val}'>${text}</div>`;
+  }
+  return itemHtmls;
+}
+
 Filter.prototype.showList = function(){
-  var element = "";
+  var elements = "";
   $("#conditions").empty();
   if(!this.verticals.length && !this.usecases.length){
-    element = "<div class='itemBlank'>Search...</div>";
+    elements = "<div class='itemBlank'>Search...</div>";
   }
   else{
-    for(let i = 0; i < this.verticals.length; i++){
-      element += "<div class='item verticalItem' onclick='filterItemClick(this)' data-value='"
-        + this.verticals[i].value + "'>" 
-        + this.verticals[i].text + "</div>";
-    }
-    for(let i = 0; i < this.usecases.length; i++){
-      element += "<div class='item usecaseItem' onclick='filterItemClick(this)' data-value='" 
-        + this.usecases[i].value + "'>" 
-        + this.usecases[i].text + "</div>";
-    }  
+    elements = this.createItemHtml(VERTICAL_TYPE, this.verticals);
+    elements += this.createItemHtml(USECASE_TYPE, this.usecases);
   }
 
-  $("#conditions").append(element);
+  $("#conditions").append(elements);
 
   // dynamic filter by Tags
   //var tagIds = this.getSelectedTagIds(); 
@@ -97,7 +102,6 @@ $(document).ready(function(){
   var verticalItems = $(".searchVerticalItem");
   var usecaseItems = $(".searchUseCaseItem");
 
-  //commit
   for(let i = 0 ; i< verticalItems.length; i++){
     verticalItems[i].addEventListener('change',function(e){
       sideBarVerticalChange(e);
@@ -139,13 +143,9 @@ function filterItemClick(e){
 function sideBarItemChange(e,type){
   var val = e.target.value;
   var txt = $(e.target).parent()[0].innerText;
-  if($(e.target).is(':checked')){
-    $filter.add(txt,val,type);
-  }
-  else{
-    $filter.remove(val,type);
-  }
-  
+
+  ($(e.target).is(':checked')) ? $filter.add(txt,val,type) : $filter.remove(val,type);
+
   $filter.showList();
 }
 
@@ -154,25 +154,6 @@ function sideBarVerticalChange(e){
 }
 function sideBarUsecaseChange(e){
   sideBarItemChange(e,USECASE_TYPE);
-}
-
-function getVerticalItem(value){
-  var items = $filter.verticals;
-  return this.getItem(items,value);
-}
-
-function getItem(items,value){
-  for (let i = 0; i < items.length; i++) { 
-    if(items[i].value == value){
-      return items[i];
-    }
-  }
-  return null;
-}
-
-function getUseCaseItem(value){
-  var items = $filter.usecases;
-  return this.getItem(items,value);
 }
 
 function initialize(){
