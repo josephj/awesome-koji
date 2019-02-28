@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-	  "deploy": "gh-pages -d public"
+    "deploy": "gh-pages -d public"
   },
   "author": "Koji",
   "license": "ISC",
