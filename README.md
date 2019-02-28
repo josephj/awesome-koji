@@ -1,4 +1,4 @@
 awesome-koji
 --------------
 
-https://josephj.github.io/awesome-koji/
+https://KojiNishi.github.io/awesome-koji/
