@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "deploy": "gh-pages -d public"
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "author": "Koji",
   "license": "ISC",
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "@babel/core": "7.3.4",
+    "gh-pages": "2.0.1",
+    "parcel-bundler": "1.11.0"
   }
 }
